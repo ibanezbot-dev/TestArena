@@ -1,0 +1,16 @@
+ID,Tema,Pregunta,Opcion_A,Opcion_B,Opcion_C,Opcion_D,Respuesta_Correcta
+1,Herencia,¿Qué keyword se usa para heredar de una clase en Java?,extends,implements,inherits,super,A
+2,Herencia,¿Cuál es la clase base de todas las clases en Java?,Object,Base,Root,Main,A
+3,Polimorfismo,¿Qué tipo de polimorfismo se logra con la sobrecarga de métodos?,Polimorfismo en tiempo de compilación,Polimorfismo en tiempo de ejecución,Polimorfismo dinámico,Polimorfismo virtual,A
+4,Polimorfismo,¿Qué permite el polimorfismo en POO?,Tratar objetos de diferentes clases de manera uniforme,Crear múltiples constructores,Ocultar datos,Crear objetos estáticos,A
+5,Encapsulamiento,¿Qué modificador de acceso hace que un atributo solo sea accesible dentro de su clase?,private,protected,public,default,A
+6,Encapsulamiento,¿Cuál es el propósito principal del encapsulamiento?,Ocultar la implementación interna y proteger los datos,Permitir herencia múltiple,Aumentar el rendimiento,Reducir el código,A
+7,Abstracción,¿Qué keyword se usa para declarar una clase abstracta en Java?,abstract,virtual,interface,static,A
+8,Abstracción,¿Se puede instanciar directamente una clase abstracta?,No,Sí,Solo con constructor,Depende del compilador,A
+9,Interfaces,¿Qué keyword se usa para implementar una interfaz en Java?,implements,extends,interface,uses,A
+10,Interfaces,¿Puede una clase implementar múltiples interfaces en Java?,Sí,No,Solo dos,Solo con herencia,A
+11,Herencia,¿Qué tipo de herencia NO es soportada directamente en Java?,Herencia múltiple de clases,Herencia simple,Herencia jerárquica,Herencia de interfaces,A
+12,Constructores,¿Qué método se llama automáticamente al crear un objeto?,Constructor,Destructor,Main,Init,A
+13,Constructores,¿Puede una clase tener múltiples constructores?,Sí mediante sobrecarga,No nunca,Solo dos,Solo con herencia,A
+14,Polimorfismo,¿Qué es el late binding o enlace tardío?,La resolución del método en tiempo de ejecución,La compilación del código,La creación de objetos,La herencia de clases,A
+15,Encapsulamiento,¿Qué son los getters y setters?,Métodos para acceder y modificar atributos privados,Tipos de variables,Constructores especiales,Interfaces de usuario,A
