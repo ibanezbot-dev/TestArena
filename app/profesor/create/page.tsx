@@ -50,7 +50,7 @@ export default function CreatePage() {
         .single();
 
       if (examError || !exam) {
-        throw new Error('Error al crear el examen');
+        throw new Error(`Error al crear el examen: ${examError?.message || 'Error en la base de datos'}`);
       }
 
       // Select random questions if needed
@@ -82,7 +82,7 @@ export default function CreatePage() {
         .insert(questionsToInsert);
 
       if (qError) {
-        throw new Error('Error al guardar las preguntas');
+        throw new Error(`Error al guardar las preguntas: ${qError.message}`);
       }
 
       // Store as host
