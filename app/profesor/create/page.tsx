@@ -86,7 +86,7 @@ export default function CreatePage() {
       sessionStorage.setItem('exam_id', exam.id);
 
       // Navigate to lobby
-      router.push(`/exam/${pin}/lobby`);
+      router.push(`/profesor/${pin}/lobby`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
     } finally {
