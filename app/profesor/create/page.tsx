@@ -10,6 +10,11 @@ import { Question } from '@/lib/types';
 import { supabase } from '@/lib/supabase';
 import { generatePin } from '@/lib/scoring';
 
+type ExamInsertError = {
+  code?: string;
+  message: string;
+};
+
 export default function CreatePage() {
   const router = useRouter();
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -19,6 +24,17 @@ export default function CreatePage() {
   const [showPreview, setShowPreview] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const getExamCreationErrorMessage = (examError: ExamInsertError) => {
+    if (examError.code === '42P01') {
+      return 'No existe la tabla "exams" en Supabase. Ejecuta el SQL de /supabase/schema.sql en tu proyecto.';
+    }
+    if (examError.code === '42501') {
+      return 'Supabase está bloqueando la inserción por permisos (RLS/policies). Revisa la configuración de seguridad.';
+    }
+
+    return `Error al crear el examen: ${examError.message}`;
+  };
 
   const handleCreateExam = async () => {
     if (!examName.trim()) {
@@ -34,23 +50,42 @@ export default function CreatePage() {
     setError('');
 
     try {
-      const pin = generatePin();
       const actualNumQuestions = Math.min(numQuestions, questions.length);
+      let exam = null;
+      let pin = '';
+      let lastExamError: ExamInsertError | null = null;
 
-      // Create exam
-      const { data: exam, error: examError } = await supabase
-        .from('exams')
-        .insert({
-          name: examName.trim(),
-          pin,
-          time_per_question: timePerQuestion,
-          num_questions: actualNumQuestions,
-        })
-        .select()
-        .single();
+      for (let attempt = 0; attempt < 5; attempt++) {
+        pin = generatePin();
+        const { data: createdExam, error: examError } = await supabase
+          .from('exams')
+          .insert({
+            name: examName.trim(),
+            pin,
+            time_per_question: timePerQuestion,
+            num_questions: actualNumQuestions,
+          })
+          .select()
+          .single();
 
-      if (examError || !exam) {
-        throw new Error('Error al crear el examen');
+        if (!examError && createdExam) {
+          exam = createdExam;
+          break;
+        }
+
+        if (examError?.code === '23505') {
+          continue;
+        }
+
+        lastExamError = examError;
+        break;
+      }
+
+      if (!exam) {
+        if (lastExamError) {
+          throw new Error(getExamCreationErrorMessage(lastExamError));
+        }
+        throw new Error('No se pudo generar un PIN único para el examen. Intenta nuevamente.');
       }
 
       // Select random questions if needed
