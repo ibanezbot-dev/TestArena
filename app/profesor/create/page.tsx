@@ -54,10 +54,14 @@ export default function CreatePage() {
       }
 
       // Select random questions if needed
-      let selectedQuestions = questions;
+      let selectedQuestions = [...questions];
       if (questions.length > actualNumQuestions) {
-        const shuffled = [...questions].sort(() => Math.random() - 0.5);
-        selectedQuestions = shuffled.slice(0, actualNumQuestions);
+        // Fisher-Yates shuffle for truly random distribution
+        for (let i = selectedQuestions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [selectedQuestions[i], selectedQuestions[j]] = [selectedQuestions[j], selectedQuestions[i]];
+        }
+        selectedQuestions = selectedQuestions.slice(0, actualNumQuestions);
       }
 
       // Insert questions
